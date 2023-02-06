@@ -1,5 +1,58 @@
 .pink { border: 2px solid #ff00FF; }
 
+.titlebar {
+    display: flex;
+    text-align: right;
+    height: 1.5em;
+    margin: 0;
+}
+
+.dragbar{
+    -webkit-user-select: none;
+    display: flex;
+    user-select: none;
+    -webkit-app-region: drag;
+    width: 100%;
+    justify-content: center;
+}
+
+.dragbar a{
+    display: flex;
+    text-align: middle;
+}
+
+.icon {
+    display: flex;
+}
+
+.icon img {
+    height: 24px;
+    width: auto;
+}
+
+.win-controls {
+    display: flex;
+}
+
+.win-controls a{
+    padding-left: 1em;
+    padding-right: 1em;
+    display: block;
+    margin: 0px;
+    background: #12273f;
+    cursor: pointer;
+}
+ 
+.win-controls a:hover{
+    background: #004991;
+    color: #fff;
+}
+
+#close:hover{
+    background: #ea0808da;
+    color: #fff;
+}
+
 /* -------------------
     VARIABLES
 ---------------------- */
@@ -942,6 +995,7 @@ label#signalTypeLbl, label#triggerTypeLbl {
 .slider1 {
     cursor: pointer;
     -webkit-appearance: none;
+    appearance: none;
     width: 100px;
     height: 34px;
     background: var(--slider-color);
@@ -1006,9 +1060,6 @@ label#signalTypeLbl, label#triggerTypeLbl {
 .alert {
     padding: 20px 10px;
     border: 1px solid var(--orange);
-}
-.quadrantControls { 
-     
 }
 .quadrantControls > div { 
     flex-basis: 100%;

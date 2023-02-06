@@ -14,6 +14,8 @@ const createWindow = () => {
     width: 800,
     height: 600,
     icon: "./src/images/SVLICON.ico",
+    minWidth: 375,
+    titleBarStyle: 'hidden',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -24,7 +26,7 @@ const createWindow = () => {
   Menu.setApplicationMenu(null)
 
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 };
 
 
@@ -85,4 +87,27 @@ ipcMain.on('refresh', (event) => {
     event.returnValue = table_data;
     //let $ = require('cheerio').load('./index.html');
     //$('#llm_table').html(table_data);
-})
+});
+
+ipcMain.on('closeWin', (event) => {
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
+});
+
+ipcMain.on('minWin', (event) => {
+  const webContents = event.sender
+  const win = BrowserWindow.fromWebContents(webContents)
+  win.minimize();
+});
+
+ipcMain.on('maxWin', (event) => {
+  const webContents = event.sender
+  const win = BrowserWindow.fromWebContents(webContents)
+  if(win.fullScreen == true){
+    win.fullScreen = false;
+  }else{
+    win.fullScreen = true;
+  }
+  
+});
