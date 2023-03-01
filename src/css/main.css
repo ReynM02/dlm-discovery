@@ -3,8 +3,10 @@
 .titlebar {
     display: flex;
     text-align: right;
-    height: 1.5em;
+    height: 2.5em;
     margin: 0;
+    padding: 0;
+    background-color: #050d14;
 }
 
 .dragbar{
@@ -13,19 +15,43 @@
     user-select: none;
     -webkit-app-region: drag;
     width: 100%;
-    justify-content: center;
+    justify-content: left;
 }
 
 .dragbar a{
     display: flex;
-    text-align: middle;
+    text-align: left;
 }
 
 .icon {
+    padding-left: 0.5em;
+    padding-right: 0.25em;
     display: flex;
+    margin: 0px;
+    height: 2.5em;
+}
+
+#read{
+    display: flex;
+    justify-content: center;
+    margin: auto
+}
+
+#read:hover{
+    scale: 105%;
+    transition-duration: .1s;
+}
+
+#read:active{
+    background-color: #c0c0c0;
+    scale: 95%;
+    transition-duration: .1s;
 }
 
 .icon img {
+    position: relative;
+    top:50%;
+    transform: translateY(-50%);
     height: 24px;
     width: auto;
 }
@@ -35,17 +61,32 @@
 }
 
 .win-controls a{
-    padding-left: 1em;
-    padding-right: 1em;
-    display: block;
+    padding-left: 1.25em;
+    padding-right: 1.25em;
+    display: flex;
     margin: 0px;
-    background: #12273f;
+    background: #050d14;
     cursor: pointer;
+    transition-duration: .1s;
+    height: 2.5em;
+}
+
+.win-controls img{
+    height: .90em;
+    width: auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    filter: invert(100%);
 }
  
 .win-controls a:hover{
-    background: #004991;
+    background: #0f293e;
     color: #fff;
+}
+
+.win-controls a:hover img{
+    filter: invert(95%)
 }
 
 #close:hover{
@@ -110,6 +151,7 @@
 }
 body {
     font-size: 16px;
+    margin: 0;
 }
 @media only screen and (max-width: 600px) {
     body {

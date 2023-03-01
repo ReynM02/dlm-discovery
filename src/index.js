@@ -109,5 +109,4 @@ ipcMain.on('maxWin', (event) => {
   }else{
     win.fullScreen = true;
   }
-  
 });
