@@ -1,29 +1,38 @@
 import socket
-def connect(ip):
+from getmac import get_mac_address
+
+DLM_IP_LIST = []
+
+DLM_DEVICE_LIST = []
+
+def get_mac(ipAddr):
+    macAddr = get_mac_address(ip=ipAddr, network_request=True)
+    return macAddr
+
+def validate_device(ip):
+    data = b''
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(30)
+    s.settimeout(0.005)
+    #print(ip)
     try:
-        s.connect((ip, 80))
-    except:
-        s.close()
-        raise Exception("Closed")
-    totalsent = 0
-    msg = b'DLM'
-    while totalsent < len(msg):
-        sent = s.send(msg[totalsent:])
+        s.connect((ip, 9019))
+        sent = s.sendall(b'PING')
         if sent == 0:
+            pass
             raise RuntimeError("Socket Connection Broken")
-        totalsent = totalsent + sent
-    
-    chunks = []
-    bytes_recd = 0
-    while bytes_recd < len(msg):
-        chunk = s.recv(4096)
-        if chunk == b'':
-            raise RuntimeError("Socket Connection Broken")
-        chunks.append(chunk)
-        bytes_recd = bytes_recd + len(chunk)
-    return b''.join(chunks)
+        data = s.recv(2048)
+    except:
+        pass
+        #print("badIP - timeout")
+    finally:
+        s.close()
+     
+    if data == b'DLM':
+        DLM_IP_LIST.append(ip)
+        print("goodIP")
+    #else:
+        #print("badIP")
+
 
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -38,10 +47,47 @@ def get_ip():
         s.close()
     return IP
 
-thisIP = get_ip()
-thisNetBits = thisIP.split(".")
-print(thisNetBits)
-thisSubNet = str(thisNetBits[0] + "." + thisNetBits[1] + "." + thisNetBits[2] + ".")
-print(thisSubNet)
+def get_subnet(ip):
+    netSplit = ip.split(".")
+    #print(netSplit)
+    subnet = str(netSplit[0] + "." + netSplit[1] + "." + netSplit[2] + ".")
+    return subnet
 
-print(connect('192.168.3.124'))
+def get_rasp_mac():
+    thisIP = get_ip()
+    thisSubnet = get_subnet(thisIP)
+    print(thisSubnet)
+    num = 0
+    ip_list = []
+    maclist = []
+
+    while num <= 225:
+        ip = thisSubnet + str(num)
+        ip_list.append(ip)
+        num += 1
+
+    for i in ip_list:
+        addr = get_mac(i)
+        maclist.append(addr)
+
+thisIP = get_ip()
+thisSubnet = get_subnet(thisIP)
+#print(thisSubnet)
+num = 0
+ip_list = []
+
+while num <= 225:
+    ip = thisSubnet + str(num)
+    ip_list.append(ip)
+    num += 1
+
+for i in ip_list:
+    validate_device(i)
+
+#print(DLM_IP_LIST)
+for i in DLM_IP_LIST:
+    mac = get_mac(i)
+    DLM_DEVICE_LIST.append([i, mac])
+    print(mac)
+
+print(DLM_DEVICE_LIST)
