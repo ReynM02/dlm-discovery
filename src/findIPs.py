@@ -53,22 +53,11 @@ def get_subnet(ip):
     subnet = str(netSplit[0] + "." + netSplit[1] + "." + netSplit[2] + ".")
     return subnet
 
-def get_rasp_mac():
-    thisIP = get_ip()
-    thisSubnet = get_subnet(thisIP)
-    print(thisSubnet)
-    num = 0
-    ip_list = []
-    maclist = []
-
-    while num <= 225:
-        ip = thisSubnet + str(num)
-        ip_list.append(ip)
-        num += 1
-
-    for i in ip_list:
-        addr = get_mac(i)
-        maclist.append(addr)
+def write_list_as_row(filename, list):
+    with open(filename, 'w', newline='') as write_obj:
+        for i in list:
+            #print(i)
+            write_obj.writelines(i[0] + ',' + i[1] + ',DLM\n')
 
 thisIP = get_ip()
 thisSubnet = get_subnet(thisIP)
@@ -88,6 +77,6 @@ for i in ip_list:
 for i in DLM_IP_LIST:
     mac = get_mac(i)
     DLM_DEVICE_LIST.append([i, mac])
-    print(mac)
+    #print(mac)
 
-print(DLM_DEVICE_LIST)
+write_list_as_row("./src/controllerList.csv", DLM_DEVICE_LIST)

@@ -1,12 +1,19 @@
 var ref = document.getElementById('read');
 var wv = document.getElementById('webview');
+var loading = '<div class="loader"> <div class="loading_1"></div> <div class="loading_2">Finding DLMs</div> </div>'
 ref.addEventListener('click', (event) => {
     loadData();
 });
 
-function loadData() {
-    data = window.electronAPI.refresh();
+window.electronAPI.got_data("ping", (data) => {
     $('#llm_table').html(data);
+    ref.disabled = false;
+});
+
+function loadData() {
+    $('#llm_table').html(loading);
+    window.electronAPI.refresh();
+    ref.disabled = true;
 }
 
 $(document).ready(function(){
@@ -16,7 +23,6 @@ $(document).ready(function(){
 var exit = document.getElementById('close');
 var mini = document.getElementById('min');
 var max = document.getElementById('max');
-var fullScreen = false;
 
 exit.addEventListener('click', (event) => {
     window.electronAPI.closeWin();

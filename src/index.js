@@ -2,6 +2,7 @@ const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const { table } = require('console');
+const {spawn} = require('child_process');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -57,7 +58,8 @@ app.on('activate', () => {
 // code. You can also put them in separate files and import them here.
 ipcMain.on('refresh', (event) => {
   const webContents = event.sender
-  const win = BrowserWindow.fromWebContents(webContents)
+  const python = spawn('python', ['./src/findIPs.py']);
+  python.on('close', (code) => {
     const data = fs.readFileSync('./src/controllerList.csv', {encoding:'utf-8', flag:'r'});
     var employee_data = data.split(/\r?\n|\r/);
     var table_data = '<table class="table table-bordered table-striped">';
@@ -75,7 +77,7 @@ ipcMain.on('refresh', (event) => {
             if (cell_count === 0 )
             {
                 //figure out the link here to the web page here
-                table_data += '<td>'+'<a href="http://' +cell_data[cell_count]+'/LLMControl.html" style="height:100%;width:100%">'+ cell_data[cell_count] + '</a>' +'</td>' ;
+                table_data += '<td>'+'<a href="http://' +cell_data[cell_count]+'/LLMControl.html" target="_blank" rel="noopener noreferrer" style="height:100%;width:100%">'+ cell_data[cell_count] + '</a>' +'</td>' ;
             }
             else
             {
@@ -84,9 +86,10 @@ ipcMain.on('refresh', (event) => {
         }
     }
     table_data += '</table>';
-    event.returnValue = table_data;
-    //let $ = require('cheerio').load('./index.html');
-    //$('#llm_table').html(table_data);
+    webContents.send('ping', table_data);
+    //event.returnValue = table_data;
+  });
+
 });
 
 ipcMain.on('closeWin', (event) => {
