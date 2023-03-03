@@ -12,8 +12,8 @@ if (require('electron-squirrel-startup')) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     icon: "./src/images/SVLICON.ico",
     minWidth: 375,
     titleBarStyle: 'hidden',
@@ -77,7 +77,8 @@ ipcMain.on('refresh', (event) => {
             if (cell_count === 0 )
             {
                 //figure out the link here to the web page here
-                table_data += '<td>'+'<a href="http://' +cell_data[cell_count]+'/LLMControl.html" target="_blank" rel="noopener noreferrer" style="height:100%;width:100%">'+ cell_data[cell_count] + '</a>' +'</td>' ;
+                //table_data += '<td>'+'<a href="http://DLM:dlmconfig@' +cell_data[cell_count]+'/LLMControl.html" target="_blank" rel="noopener noreferrer" style="height:100%;width:100%">'+ cell_data[cell_count] + '</a>' +'</td>' ;
+                table_data += '<td>'+'<a id="link" href="./ControlPage/DLMControlpage.html">'+ cell_data[cell_count] + '</a>' +'</td>' ;
             }
             else
             {

@@ -90,11 +90,29 @@
     -webkit-app-region: drag;
     width: 100%;
     justify-content: left;
+    height: 2.5em;
+    vertical-align: middle;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
 }
 
 .dragbar a{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     text-align: left;
+    vertical-align: middle;
+    height: 2.5em;
+    line-height: 2.5em;
 }
 
 .icon {
