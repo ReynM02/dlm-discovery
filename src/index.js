@@ -4,6 +4,8 @@ const fs = require('fs');
 const { table } = require('console');
 const {spawn} = require('child_process');
 
+require('update-electron-app')();
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -14,7 +16,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
-    icon: "./src/images/SVLICON.ico",
+    icon: path.join(__dirname, 'images/SVLICON.ico'),
     minWidth: 375,
     titleBarStyle: 'hidden',
     webPreferences: {
@@ -27,7 +29,7 @@ const createWindow = () => {
   Menu.setApplicationMenu(null)
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 };
 
 
@@ -58,9 +60,9 @@ app.on('activate', () => {
 // code. You can also put them in separate files and import them here.
 ipcMain.on('refresh', (event) => {
   const webContents = event.sender
-  const python = spawn('python', ['./src/findIPs.py']);
+  const python = spawn('python', [path.join(__dirname, 'findIPs.py')]);
   python.on('close', (code) => {
-    const data = fs.readFileSync('./src/controllerList.csv', {encoding:'utf-8', flag:'r'});
+    const data = fs.readFileSync(path.join(__dirname, 'controllerList.csv'), {encoding:'utf-8', flag:'r'});
     var employee_data = data.split(/\r?\n|\r/);
     var table_data = '<table class="table table-bordered table-striped">';
         table_data += '<th>'+"IP Address"+'</th>';
