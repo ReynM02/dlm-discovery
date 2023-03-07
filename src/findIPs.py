@@ -1,5 +1,15 @@
 import socket
 from getmac import get_mac_address
+import sys
+import os
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 DLM_IP_LIST = []
 
@@ -79,4 +89,4 @@ for i in DLM_IP_LIST:
     DLM_DEVICE_LIST.append([i, mac])
     #print(mac)
 
-write_list_as_row("./src/controllerList.csv", DLM_DEVICE_LIST)
+write_list_as_row(resource_path("controllerList.csv"), DLM_DEVICE_LIST)

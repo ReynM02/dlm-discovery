@@ -2,19 +2,6 @@ module.exports = {
   packagerConfig: {
     icon: './src/images/SVLICON'
   },
-  publishers: [
-    {
-      name: '@electron-forge/publisher-github',
-      config: {
-        repository: {
-          owner: 'ReynM02',
-          name: 'dlm-discovery'
-        },
-        prerelease: true,
-        authToken: "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"
-      }
-    }
-  ],
   rebuildConfig: {},
   makers: [
     {

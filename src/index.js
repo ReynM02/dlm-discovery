@@ -3,8 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const { table } = require('console');
 const {spawn} = require('child_process');
-
-require('update-electron-app')();
+var connected_ip = '';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -29,7 +28,7 @@ const createWindow = () => {
   Menu.setApplicationMenu(null)
 
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 };
 
 
@@ -55,14 +54,21 @@ app.on('activate', () => {
   }
 });
 
+ipcMain.on('sent_id', (event, id) => {
+  console.log(id);
+  connected_ip = id;
+});
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 ipcMain.on('refresh', (event) => {
   const webContents = event.sender
-  const python = spawn('python', [path.join(__dirname, 'findIPs.py')]);
+  const python = spawn(path.join(__dirname, 'findIPs/findIPs.exe'));
+  python.stderr.on("data", (data) => {
+    console.error(data.toString())
+  })
   python.on('close', (code) => {
-    const data = fs.readFileSync(path.join(__dirname, 'controllerList.csv'), {encoding:'utf-8', flag:'r'});
+    const data = fs.readFileSync(path.join(__dirname, 'findIPs/controllerList.csv'), {encoding:'utf-8', flag:'r'});
     var employee_data = data.split(/\r?\n|\r/);
     var table_data = '<table class="table table-bordered table-striped">';
         table_data += '<th>'+"IP Address"+'</th>';
@@ -80,7 +86,7 @@ ipcMain.on('refresh', (event) => {
             {
                 //figure out the link here to the web page here
                 //table_data += '<td>'+'<a href="http://DLM:dlmconfig@' +cell_data[cell_count]+'/LLMControl.html" target="_blank" rel="noopener noreferrer" style="height:100%;width:100%">'+ cell_data[cell_count] + '</a>' +'</td>' ;
-                table_data += '<td>'+'<a id="link" href="./ControlPage/DLMControlpage.html">'+ cell_data[cell_count] + '</a>' +'</td>' ;
+                table_data += '<td>'+'<a id="'+ cell_data[cell_count] +'" href="./ControlPage/DLMControlpage.html">'+ cell_data[cell_count] + '</a>' +'</td>' ;
             }
             else
             {

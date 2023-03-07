@@ -6,11 +6,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
     closeWin: () => ipcRenderer.send('closeWin'),
     minWin: () => ipcRenderer.send('minWin'),
     maxWin: () => ipcRenderer.send('maxWin'),
-    got_data: (channel, func) =>{
+    got_data: (channel, func) => {
         let validChannels = ['ping'];
         if (validChannels.includes(channel)) {
           ipcRenderer.on(channel, (event, data) => func(data))
         }
-    } 
+    },
+    send_id: (id) => ipcRenderer.send("sent_id", id) 
 });
   // we can also expose variables, not just functions
