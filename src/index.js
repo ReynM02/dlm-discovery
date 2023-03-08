@@ -10,22 +10,43 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
     icon: path.join(__dirname, 'images/SVLICON.ico'),
-    minWidth: 375,
+    minWidth: 550,
+    show: false,
     titleBarStyle: 'hidden',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
 
+  const splash = new BrowserWindow({
+    width: 810,
+    height: 250,
+    transparent: true,
+    icon: path.join(__dirname, 'images/SVLICON.ico'),
+    resizable: false,
+    frame: false,
+    alwaysOnTop: true
+  });
+  splash.loadURL(path.join(__dirname, 'splash.html'));
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-  Menu.setApplicationMenu(null)
+  Menu.setApplicationMenu(null);
+  mainWindow.once('ready-to-show', () => {
+    sleep(1300).then(() => {
+      splash.destroy();
+      mainWindow.show();
+    });
+  });
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -116,9 +137,9 @@ ipcMain.on('minWin', (event) => {
 ipcMain.on('maxWin', (event) => {
   const webContents = event.sender
   const win = BrowserWindow.fromWebContents(webContents)
-  if(win.fullScreen == true){
-    win.fullScreen = false;
+  if(win.isMaximized == true){
+    win.b 
   }else{
-    win.fullScreen = true;
+    win.maximize();
   }
 });

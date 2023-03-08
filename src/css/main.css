@@ -1,5 +1,44 @@
 .pink { border: 2px solid #ff00FF; }
 
+.scroll_enabled {
+    overflow: scroll !important;
+    height: calc(100vh - 154px); /* define your custom height */
+}
+
+.scroll_enabled::-webkit-scrollbar {
+    width: 20px;
+}
+.scroll_enabled::-webkit-scrollbar-corner {
+    background: rgba(0,0,0,0);
+}
+.scroll_enabled::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 6px;
+    border: 4px solid rgba(0,0,0,0);
+    background-clip: content-box;
+    min-width: 32px;
+    min-height: 32px;
+}
+.scroll_enabled::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0);
+}
+
+.splash { 
+    display: block;
+    text-align: center;
+}
+
+.splash img {
+    width: 40em;
+    height: auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(50%);
+    margin: auto;
+    padding-bottom: 5em;
+    display: block;
+}
+
 .loader {
     width: 150px;
     margin: 150px auto 70px;
@@ -12,7 +51,7 @@
     height: 10px;
     border: 1px solid #134A8F;
     border-radius: 10px;
-    animation: turn 4s linear 1.75s infinite;
+    animation: turn 4s linear 1.75s infinite !important;
 }
 
 .loader .loading_1:before {
@@ -23,7 +62,7 @@
     height: 100%;
     background-color: #134A8F;
     box-shadow: 10px 0px 15px 0px #134A8F;
-    animation: load 2s linear infinite;
+    animation: load 2s linear infinite !important;
 }
 
 .loader .loading_2 {
@@ -33,7 +72,7 @@
     color: #FFFFFF;
     font-size: 22px;
     text-align: center;
-    animation: bounce 2s linear infinite;
+    animation: bounce 2s linear infinite !important;
 }
 
 @keyframes load {
@@ -244,10 +283,12 @@
 body {
     font-size: 16px;
     margin: 0;
+    overflow: hidden;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     body {
         font-size: 14px;
+        overflow-y: hidden;
     }
 }
 html {
@@ -256,8 +297,9 @@ html {
     color: var(--font-color);
 } 
 iframe { 
-    width: 100%; 
-    height:2800px; 
+    width: 100%;
+    border: none;
+    height: 1900px;
 }
 pre {
     white-space: normal;
@@ -265,8 +307,8 @@ pre {
 .content {
     padding: 0 12px;
     max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
+    overflow: hidden;  
+    transition: max-height 0.2s ease-out !important;
     background-color: #ffffff;
   } 
 .clearFix {
@@ -275,7 +317,7 @@ pre {
 .desktopOnly {
     display: inherit;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .desktopOnly {
         display: none;
     }
@@ -283,7 +325,7 @@ pre {
 .mobileOnly {
     display: none;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .mobileOnly {
         display: inherit
     }
@@ -306,11 +348,28 @@ h3 {
 a, a:link {
     color: var(--link-color);
     text-decoration: underline;
-    transition: all .5s ease;
+    transition: all .5s ease !important;
 }
-    a:hover, a:link:hover {
-        color: var(--link-hover-color);
-    }
+
+a:hover, a:link:hover {
+    color: var(--link-hover-color);
+}
+
+.controlsheader {
+    background: var(--blue);
+    background: var(--blue-mid);
+    border-bottom: none !important;
+    color:#fff;
+    display:block;
+    font: 14px/1.3 Arial,sans-serif;
+    height:50px;
+    position:relative;
+    text-align: center;
+    padding: 10px 10px 0px 10px !important;
+    display: flex;
+    align-items: center;
+}
+
 header {
     background: var(--blue);
     background: var(--blue-mid);
@@ -480,7 +539,7 @@ img {
     overflow: hidden;
     background: var(--blue-mid);
     border-bottom: 10px solid var(--blue-medium);
-    padding-top: 10px;
+    padding-top: 0;
   } 
 
   /* Style the buttons inside the tab */
@@ -495,9 +554,9 @@ img {
     font-size: 1.2em;
     color: #fff;
     font-weight: bold;
-    transition: all .5s ease;
+    transition: all .5s ease !important;
   }
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 700px) {
       .tab button { 
           padding: 10px 16px;
           font-size: 1em;
@@ -521,9 +580,10 @@ img {
     padding: 6px 0;
     border-top: none;
     border: none;
+    transition: all 1s ease;
   }
   .tabcontent#Events { /* has extra row of tabs */
-    margin: -20px 0 0 0;
+    margin: 0 0 0 0;
     padding: 0;
 }
 .linetab {
@@ -555,7 +615,7 @@ img {
     font-size: 1.1em;
     cursor: pointer;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .linetab .tablinkContainer button {
         padding: 8px 16px;
         font-size: 1em;
@@ -563,7 +623,7 @@ img {
 }
 .linetab .tablinkContainer .tablinks {
     text-align: center;
-    transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out !important;
     position: relative;
     opacity: .6;
     margin: 0 .8em 0 0;
@@ -580,7 +640,7 @@ img {
     width: 0;
     height: 5px;
     margin: 5px 0 0;
-    transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out !important;
     transition-duration: .75s;
     opacity: 0;
     background-color: var(--orange);
@@ -621,7 +681,7 @@ img {
     text-align: center;
     padding: 10px 32px;
     cursor: pointer;
-    transition: all .5s ease;
+    transition: all .5s ease-in !important;
     border: 1px solid rgba(243,113,35,.6); /* orange w/lower opacity) */
     margin-right: 2em;
     opacity: .8;
@@ -661,7 +721,7 @@ img {
         min-width: 560px;
     }
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .panel {
         margin: 10px 0;
         width: 98%; 
@@ -709,7 +769,7 @@ img {
     border-right: 1px solid var(--border-color);
     padding: 20px 20px 20px 0;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .panel .inputGroup {
         border-right: none;
         border-bottom: 1px solid var(--border-color);
@@ -720,7 +780,7 @@ img {
     margin-left: 20px;
     padding: 20px; /* align with input group */
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .panel .buttonGroup {
         margin-left: 0;
         padding-left: 0;
@@ -906,12 +966,12 @@ table {
     font-weight: bold;
     cursor: pointer;
     border: 2px solid transparent;
-    transition: all .5s ease;
+    transition: all .5s ease !important;
     cursor: pointer;
     z-index: 10;
     font-size: .85em;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .btn, input.btn {
         font-size: 1em; /* iOS again */
     }
@@ -1135,7 +1195,7 @@ label#signalTypeLbl, label#triggerTypeLbl {
     background: var(--slider-color);
     outline: none;
     -webkit-transition: .2s;
-    transition: opacity .2s;
+    transition: opacity .2s !important;
     border-radius: 20px;
   }
 
@@ -1400,7 +1460,7 @@ input#colorSelect {
         min-width: 600px;
     }
 }
-@media only screen and (max-width: 600px) { 
+@media only screen and (max-width: 700px) { 
     .titleRow {
         min-width: 200px;
     }
